@@ -42,6 +42,55 @@ class Grid():
         """
         pass  # TODO: Question 1
 
+        if not isinstance(value, tuple) or len(value) != 2:
+            raise TypeError(
+                "current_pos must be a tuple of length 2, e.g., (x, y).")
+
+        try:
+            x, y = int(value[0]), int(value[1])
+        except Exception as e:
+            raise TypeError(
+                "current_pos elements must be convertible to int.") from e
+
+        if x < 0:
+            x = 0
+        elif x > self.width:
+            x = self.width
+
+        if y < 0:
+            y = 0
+        elif y > self.height:
+            y = self.height
+
+        self._current_pos = (x, y)
+
+    @property
+    def enemy_pos(self) -> Tuple[int, int]:
+        return self._enemy_pos
+
+    @enemy_pos.setter
+    def enemy_pos(self, value: Tuple[int, int]) -> None:
+        if not isinstance(value, tuple) or len(value) != 2:
+            raise TypeError(
+                "enemy_pos must be a tuple of length 2, e.g., (x, y).")
+        try:
+            ex, ey = int(value[0]), int(value[1])
+        except Exception as e:
+            raise TypeError(
+                "enemy_pos elements must be convertible to int.") from e
+
+        if ex < 0:
+            ex = 0
+        elif ex > self.width:
+            ex = self.width
+
+        if ey < 0:
+            ey = 0
+        elif ey > self.height:
+            ey = self.height
+
+        self._enemy_pos = (ex, ey)
+
     def move_forward(self) -> Tuple[int, int]:  # type: ignore
         '''
         让机器人向当前方向走一格
@@ -50,6 +99,18 @@ class Grid():
         以右为X轴正方向，上为Y轴正方向
         '''
         pass  # TODO: Question 2
+        x, y = self.current_pos
+        if self.current_direction == Facing.RIGHT:
+            x += 1
+        elif self.current_direction == Facing.UP:
+            y += 1
+        elif self.current_direction == Facing.LEFT:
+            x -= 1
+        elif self.current_direction == Facing.DOWN:
+            y -= 1
+
+        self.current_pos = (x, y)
+        return self.current_pos
 
     def turn_left(self) -> Facing:  # type: ignore
         '''
@@ -58,17 +119,26 @@ class Grid():
         '''
         pass  # TODO: Question 3a
 
+        new_val = (self.current_direction.value + 1) % 4
+        self.current_direction = Facing(new_val)
+        return self.current_direction
+
     def turn_right(self) -> Facing:  # type: ignore
         '''
         让机器人顺时针转向
         '''
         pass  # TODO: Question 3b
 
+        new_val = (self.current_direction.value - 1) % 4
+        self.current_direction = Facing(new_val)
+        return self.current_direction
+
     def find_enemy(self) -> bool:  # type: ignore
         '''
         如果找到敌人（机器人和敌人坐标一致），就返回true
         '''
         pass  # TODO: Question 4
+        return self.current_pos == self.enemy_pos
 
     def record_position(self, step: int) -> None:
         '''
@@ -77,6 +147,7 @@ class Grid():
         例如：step=1 时，记录 {1: (0, 0)}
         '''
         pass  # TODO: Question 5a
+        self.position_history[int(step)] = self.current_pos
 
     def get_position_at_step(self, step: int) -> tuple:  # type: ignore
         '''
@@ -84,6 +155,7 @@ class Grid():
         如果该步数不存在，返回 None
         '''
         pass  # TODO: Question 5b
+        return self.position_history.get(int(step), None)
 
 
 """
@@ -109,3 +181,21 @@ class Grid():
 
 """
 # TODO: Question 6
+
+
+class AdvancedGrid(Grid):
+    def __init__(self, width: int, height: int, enemy_pos: tuple):
+        super().__init__(width, height, enemy_pos)
+        self.steps: int = 0
+
+    def move_forward(self) -> Tuple[int, int]:  # type: ignore
+
+        new_pos = super().move_forward()
+
+        self.steps += 1
+        return new_pos
+
+    def distance_to_enemy(self) -> int:
+        x, y = self.current_pos
+        ex, ey = self.enemy_pos
+        return abs(x - ex) + abs(y - ey)
