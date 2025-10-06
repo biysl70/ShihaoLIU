@@ -42,7 +42,6 @@ class Grid():
         """
         pass  # TODO: Question 1
 
-<<<<<<< HEAD
         if not isinstance(value, tuple) or len(value) != 2:
             raise TypeError(
                 "current_pos must be a tuple of length 2, e.g., (x, y).")
@@ -92,8 +91,6 @@ class Grid():
 
         self._enemy_pos = (ex, ey)
 
-=======
->>>>>>> 0518f7ec4d5cd087948cfdf735a62b51abb03737
     def move_forward(self) -> Tuple[int, int]:  # type: ignore
         '''
         让机器人向当前方向走一格
@@ -102,7 +99,6 @@ class Grid():
         以右为X轴正方向，上为Y轴正方向
         '''
         pass  # TODO: Question 2
-<<<<<<< HEAD
         x, y = self.current_pos
         if self.current_direction == Facing.RIGHT:
             x += 1
@@ -115,8 +111,6 @@ class Grid():
 
         self.current_pos = (x, y)
         return self.current_pos
-=======
->>>>>>> 0518f7ec4d5cd087948cfdf735a62b51abb03737
 
     def turn_left(self) -> Facing:  # type: ignore
         '''
@@ -125,35 +119,26 @@ class Grid():
         '''
         pass  # TODO: Question 3a
 
-<<<<<<< HEAD
         new_val = (self.current_direction.value + 1) % 4
         self.current_direction = Facing(new_val)
         return self.current_direction
 
-=======
->>>>>>> 0518f7ec4d5cd087948cfdf735a62b51abb03737
     def turn_right(self) -> Facing:  # type: ignore
         '''
         让机器人顺时针转向
         '''
         pass  # TODO: Question 3b
 
-<<<<<<< HEAD
         new_val = (self.current_direction.value - 1) % 4
         self.current_direction = Facing(new_val)
         return self.current_direction
 
-=======
->>>>>>> 0518f7ec4d5cd087948cfdf735a62b51abb03737
     def find_enemy(self) -> bool:  # type: ignore
         '''
         如果找到敌人（机器人和敌人坐标一致），就返回true
         '''
         pass  # TODO: Question 4
-<<<<<<< HEAD
         return self.current_pos == self.enemy_pos
-=======
->>>>>>> 0518f7ec4d5cd087948cfdf735a62b51abb03737
 
     def record_position(self, step: int) -> None:
         '''
@@ -162,10 +147,7 @@ class Grid():
         例如：step=1 时，记录 {1: (0, 0)}
         '''
         pass  # TODO: Question 5a
-<<<<<<< HEAD
         self.position_history[int(step)] = self.current_pos
-=======
->>>>>>> 0518f7ec4d5cd087948cfdf735a62b51abb03737
 
     def get_position_at_step(self, step: int) -> tuple:  # type: ignore
         '''
@@ -173,10 +155,7 @@ class Grid():
         如果该步数不存在，返回 None
         '''
         pass  # TODO: Question 5b
-<<<<<<< HEAD
         return self.position_history.get(int(step), None)
-=======
->>>>>>> 0518f7ec4d5cd087948cfdf735a62b51abb03737
 
 
 """
@@ -202,7 +181,6 @@ class Grid():
 
 """
 # TODO: Question 6
-<<<<<<< HEAD
 
 
 class AdvancedGrid(Grid):
@@ -221,5 +199,3 @@ class AdvancedGrid(Grid):
         x, y = self.current_pos
         ex, ey = self.enemy_pos
         return abs(x - ex) + abs(y - ey)
-=======
->>>>>>> 0518f7ec4d5cd087948cfdf735a62b51abb03737
